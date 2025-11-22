@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.7</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.ly</groupId>
+    <artifactId>weblog</artifactId>
+    <version>${revision}</version>
+    <name>weblog</name>
+       <!--    项目描述-->
+    <description>前后端分离项目 Weblog By 洋哥</description>
+<!--    多模块项目父工程打包模式必须指定为pom-->
+    <packaging>pom</packaging>
+<!--   版本号统一管理-->
+    <properties>
+        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <revision>0.0.1-SNAPSHOT</revision>
+<!--        Maven相关-->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <argLine></argLine>
+<!--        依赖包版本 名字可以自定义-->
+        <lomboke.version>1.18.28</lomboke.version>
+        <guava.version>31.1-jre</guava.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <jackson.version>2.19.2</jackson.version>
+    </properties>
+    <!--        统一依赖管理-->
+<dependencyManagement>
+<dependencies>
+    <dependency>
+        <groupId>com.ly</groupId>
+        <artifactId>weblog-module-admin</artifactId>
+        <version>${revision}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.ly</groupId>
+        <artifactId>weblog-module-common</artifactId>
+        <version>${revision}</version>
+    </dependency>
+<!--    常用工具库-->
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${commons-lang3.version}</version>
+    </dependency>
+<!--jackson-->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>${jackson.version}</version>
+    </dependency>
+</dependencies>
+</dependencyManagement>
+<!--    子模块管理-->
+    <modules>
+<!--        入口模块-->
+        <module>weblog-web</module>
+        <module>weblog-module-admin</module>
+        <module>weblog-module-common</module>
+    </modules>
+    <build>
+        <!-- 统一插件管理 -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <argLine>@{argLine} -Djdk.attach.allowAttachSelf=true -Djdk.net.URLClassPath.disableClassPathURLCheck=true -Dmockito.mock-maker=subclass</argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>
