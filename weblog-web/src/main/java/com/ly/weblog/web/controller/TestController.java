@@ -27,17 +27,8 @@ public class TestController {
     @PostMapping("/test")
     // 测试日志
     @ApiOperationLog(description = "测试接口")
-    public Response test(@RequestBody @Validated User user, BindingResult bindingResult){
+    public Response test(@RequestBody @Validated User user) {
 
-if (bindingResult.hasErrors()){
-
-    String errorMsg = bindingResult.getFieldErrors()
-            .stream()
-            .map(FieldError::getDefaultMessage)
-            .collect(Collectors.joining(","));
-
-    return Response.fail("400",errorMsg);
-}
-return Response.success(user);
+        return Response.success(user);
     }
 }

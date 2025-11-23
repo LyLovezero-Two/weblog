@@ -15,7 +15,9 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
 //    通用状态异常码
     SYSTEM_ERROR("10000","系统异常"),
     //业务异常状态码
-    PRODUCT_NOT_FOUND("20000","该产品不存在(测试使用)"),;
+    PRODUCT_NOT_FOUND("20000","该产品不存在(测试使用)"),
+    //参数异常状态码
+    PARAM_NOT_VALID("10001", "参数错误"),;
 //异常码
     private String errorCode;
     //错误信息
