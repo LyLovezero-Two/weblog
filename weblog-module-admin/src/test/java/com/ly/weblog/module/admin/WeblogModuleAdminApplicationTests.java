@@ -1,4 +1,4 @@
-package com.ly.weblogmoduleadmin;
+package com.ly.weblog.module.admin;
 
 import org.junit.jupiter.api.Test;
 class WeblogModuleAdminApplicationTests {

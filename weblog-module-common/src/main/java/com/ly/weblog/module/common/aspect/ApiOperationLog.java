@@ -1,4 +1,4 @@
-package com.ly.weblogmodulecommon.aspect;
+package com.ly.weblog.module.common.aspect;
 
 import java.lang.annotation.*;
 

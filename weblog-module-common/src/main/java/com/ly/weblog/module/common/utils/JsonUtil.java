@@ -1,4 +1,4 @@
-package com.ly.weblogmodulecommon.utils;
+package com.ly.weblog.module.common.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

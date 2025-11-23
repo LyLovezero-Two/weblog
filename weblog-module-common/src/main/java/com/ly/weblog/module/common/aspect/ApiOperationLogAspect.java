@@ -1,6 +1,6 @@
-package com.ly.weblogmodulecommon.aspect;
+package com.ly.weblog.module.common.aspect;
 
-import com.ly.weblogmodulecommon.utils.JsonUtil;
+import com.ly.weblog.module.common.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -28,7 +28,7 @@ public class ApiOperationLogAspect {
     /**
      * 以定义 @ApiOperationLog 注解为切点,凡是添加@ApiOperationLog的方法,都会执行环绕中的代码
      */
-   @Pointcut("@annotation(com.ly.weblogmodulecommon.aspect.ApiOperationLog)")
+   @Pointcut("@annotation(com.ly.weblog.module.common.aspect.ApiOperationLog)")
     public void apiOperationLog(){}
     /**
      * 环绕
@@ -38,34 +38,39 @@ public class ApiOperationLogAspect {
      */
     @Around("apiOperationLog()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-        //请求开始时间
-        long startTime = System.currentTimeMillis();
+        Object result;
+        try {
+            //请求开始时间
+            long startTime = System.currentTimeMillis();
 
-        //MDC
-        MDC.put("traceId", UUID.randomUUID().toString());
+            //MDC
+            MDC.put("traceId", UUID.randomUUID().toString());
 
-        //获取被请求的类和方法
-        String className = joinPoint.getTarget().getClass().getName();
-        String methodName = joinPoint.getSignature().getName();
+            //获取被请求的类和方法
+            String className = joinPoint.getTarget().getClass().getName();
+            String methodName = joinPoint.getSignature().getName();
 
-        //请求入参
-        Object[] args = joinPoint.getArgs();
-        //入参转JSON字符串
-        String argsJsonStr = Arrays.stream(args).map(toJsonStr()).collect(Collectors.joining(", "));
+            //请求入参
+            Object[] args = joinPoint.getArgs();
+            //入参转JSON字符串
+            String argsJsonStr = Arrays.stream(args).map(toJsonStr()).collect(Collectors.joining(", "));
 //功能描述信息
-        String description =getApiOperationLogDescription(joinPoint);
-        //打印请求相关参数
-        log.info("====== 请求开始: [{}], 入参: {}, 请求类: {}, 请求方法: {} =================================== ",
-                description, argsJsonStr, className, methodName);
-        //执行切点方法
-        Object result = joinPoint.proceed();
+            String description =getApiOperationLogDescription(joinPoint);
+            //打印请求相关参数
+            log.info("====== 请求开始: [{}], 入参: {}, 请求类: {}, 请求方法: {} =================================== ",
+                    description, argsJsonStr, className, methodName);
+            //执行切点方法
+            result = joinPoint.proceed();
 
-        //执行耗时
-        long executionTime = System.currentTimeMillis() - startTime;
+            //执行耗时
+            long executionTime = System.currentTimeMillis() - startTime;
 
-        // 打印出参等相关信息
-        log.info("====== 请求结束: [{}], 耗时: {}ms, 出参: {} =================================== ",
-                description, executionTime, JsonUtil.toJsonString(result));
+            // 打印出参等相关信息
+            log.info("====== 请求结束: [{}], 耗时: {}ms, 出参: {} =================================== ",
+                    description, executionTime, JsonUtil.toJsonString(result));
+        } finally {
+            MDC.clear();
+        }
         return result;
     }
     /**
