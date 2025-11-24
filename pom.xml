@@ -30,6 +30,8 @@
         <guava.version>31.1-jre</guava.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <jackson.version>2.19.2</jackson.version>
+        <knife4j.version>4.5.0</knife4j.version>
+        <springdoc.version>2.7.0</springdoc.version>
     </properties>
     <!--        统一依赖管理-->
 <dependencyManagement>
@@ -51,6 +53,22 @@
         <version>${guava.version}</version>
     </dependency>
     <dependency>
+        <groupId>com.github.xiaoymin</groupId>
+        <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+        <version>${knife4j.version}</version>
+        <exclusions>
+            <exclusion>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <version>${springdoc.version}</version>
+    </dependency>
+    <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>${commons-lang3.version}</version>
@@ -66,6 +84,7 @@
         <artifactId>jackson-databind</artifactId>
         <version>${jackson.version}</version>
     </dependency>
+
 </dependencies>
 </dependencyManagement>
 <!--    子模块管理-->
